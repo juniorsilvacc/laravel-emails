@@ -1,3 +1,3 @@
-<h1>H1 do Email</h1>
+<h1>Olá, {{$user->name}} </h1>
 
 <p>Paragrafo...</p>

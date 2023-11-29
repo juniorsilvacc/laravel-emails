@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -17,7 +18,7 @@ class ExampleMail extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        private array $user
+        private User $user
     ) {
     }
 
@@ -27,7 +28,7 @@ class ExampleMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Subject',
+            subject: 'New Email',
         );
     }
 
@@ -38,6 +39,9 @@ class ExampleMail extends Mailable
     {
         return new Content(
             view: 'emails.users.exemple',
+            with: [
+                'user' => $this->user,
+            ]
         );
     }
 

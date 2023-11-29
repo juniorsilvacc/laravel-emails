@@ -1,6 +1,7 @@
 <?php
 
 use App\Mail\ExampleMail;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -16,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test-email', function () {
-    return (new ExampleMail([]))->render();
+    // return (new ExampleMail([]))->render();
+    $user = User::factory()->create();
+
     Mail::to('test@example.com')
-        ->send(new ExampleMail([]));
+        ->send(new ExampleMail($user));
 
     return 'ok';
 });
