@@ -1,9 +1,6 @@
 <?php
 
-use App\Mail\ExampleMail;
-use App\Mail\UserWelcome;
-use App\Models\User;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,25 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test-email-markdown', function () {
-    // return (new UserWelcome())->render();
-
-    Mail::to('junior@example.com')
-        ->send(new UserWelcome());
-
-    return 'ok';
-});
-
-Route::get('/test-email', function () {
-    // return (new ExampleMail([]))->render();
-    $user = User::factory()->create();
-
-    Mail::to('test@example.com')
-        ->send(new ExampleMail($user));
-
-    return 'ok';
-});
-
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
